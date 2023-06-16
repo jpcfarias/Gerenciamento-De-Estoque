@@ -159,7 +159,7 @@ public class TelaCadastroProduto extends JDialog{
 
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-                    controller.curso(gson, nome, descricao, codigo, quantidade, preco, combofilial);
+                    controller.salvarCurso(gson, nome, descricao, codigo, quantidade, preco, combofilial);
 
                     TelaCadastroProduto.this.dispose();
 
@@ -179,7 +179,7 @@ public class TelaCadastroProduto extends JDialog{
                     
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
                     
-                    controller.caneca(gson, nome, descricao, codigo, quantidade, preco, combofilial, peso);
+                    controller.salvarCaneca(gson, nome, descricao, codigo, quantidade, preco, combofilial, peso);
                     
                     TelaCadastroProduto.this.dispose();
                 }catch(java.lang.NumberFormatException e){

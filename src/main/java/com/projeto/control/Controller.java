@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -21,7 +22,9 @@ import com.projeto.model.Filial;
 
 public class Controller{
 
-    public void salvarFilial(String nome, String endereco, Gson gson){
+    public boolean salvarFilial(String nome, String endereco){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
         Filial cadastro = new Filial(nome, endereco);
 
         String filePath = "filiais.json";
@@ -74,7 +77,8 @@ public class Controller{
         else {
             System.out.println("Program doesn't have access to the file!!");
         }
-        
+
+        return true;
     }
 
     public JComboBox<String> comboFilial(String cominhodoarquivo,JComboBox<String> combofilial){
@@ -107,7 +111,7 @@ public class Controller{
         return listafilial;
     }
 
-    public void curso(Gson gson, String nome, String descricao, int codigo, int quantidade, float preco, JComboBox<String> combofilial) {
+    public boolean salvarCurso(Gson gson, String nome, String descricao, int codigo, int quantidade, float preco, JComboBox<String> combofilial) {
         Curso cadastro = new Curso(nome, descricao, codigo, quantidade, preco, String.valueOf(combofilial.getSelectedItem()));
         
         String filePath = "curso.json";
@@ -167,8 +171,8 @@ public class Controller{
         ArrayList<Filial> listafilial = new ArrayList<Filial>();
         listafilial = listaFilial("filiais.json", listafilial);
         for (int i = 0; i < listafilial.size(); i++) {
-            if(listafilial.get(i).getEndereco().equals(combofilial.getSelectedItem())){
-                listafilial.get(i).setNumerodeprodutos(listafilial.get(i).getNumerodeprodutos() + 1);
+            if(listafilial.get(i).getNome().equals(combofilial.getSelectedItem())){
+                listafilial.get(i).setNumerodeprodutos(listafilial.get(i).getNumerodeprodutos() + quantidade);
             }
         }
         System.out.println(listafilial);
@@ -179,8 +183,10 @@ public class Controller{
             e.printStackTrace();
         }
         JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
+        return true;
     }
-    public void caneca(Gson gson, String nome, String descricao, int codigo, int quantidade, float preco, JComboBox<String> combofilial, float peso) {
+    
+    public boolean salvarCaneca(Gson gson, String nome, String descricao, int codigo, int quantidade, float preco, JComboBox<String> combofilial, float peso) {
         Caneca cadastro = new Caneca(nome, descricao, codigo, quantidade, preco, String.valueOf(combofilial.getSelectedItem()),peso);
 
         String filePath = "caneca.json";
@@ -240,8 +246,8 @@ public class Controller{
         ArrayList<Filial> listafilial = new ArrayList<Filial>();
         listafilial = listaFilial("filiais.json", listafilial);
         for (int i = 0; i < listafilial.size(); i++) {
-            if(listafilial.get(i).getEndereco().equals(combofilial.getSelectedItem())){
-                listafilial.get(i).setNumerodeprodutos(listafilial.get(i).getNumerodeprodutos() + 1);
+            if(listafilial.get(i).getNome().equals(combofilial.getSelectedItem())){
+                listafilial.get(i).setNumerodeprodutos(listafilial.get(i).getNumerodeprodutos() + quantidade);
             }
         }
         System.out.println(listafilial);
@@ -253,5 +259,6 @@ public class Controller{
         }
         
         JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
+        return true;
     }
 }

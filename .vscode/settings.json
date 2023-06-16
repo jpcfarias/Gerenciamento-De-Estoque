@@ -2,6 +2,8 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "e:\\Downloads\\gson-2.10.1.jar",
-        "e:\\Downloads\\junit-4.13.2.jar"
+        "e:\\Downloads\\junit-4.13.2.jar",
+        "e:\\Downloads\\junit-jupiter-api-5.9.3.jar",
+        "e:\\Downloads\\hamcrest-all-1.3.jar"
     ]
 }
