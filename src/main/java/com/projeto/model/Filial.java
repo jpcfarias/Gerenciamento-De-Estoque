@@ -55,10 +55,18 @@ public class Filial{
         this.listaDeCursosNaFilial = listaDeCursosNaFilial;
     }
 
+    /**
+     * adiciona curso na lista de cursos na filial
+     * @param caneca
+     */
     public void addCanecaNaFilial(Caneca caneca) {
         listaDeCanecasNaFilial.add(caneca);
     }
 
+    /**
+     * adiciona curso na lista de cursos na filial
+     * @param curso
+     */
     public void addCursoNaFilial(Curso curso) {
         listaDeCursosNaFilial.add(curso);
     }

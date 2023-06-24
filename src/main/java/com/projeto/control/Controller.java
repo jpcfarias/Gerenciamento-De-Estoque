@@ -25,7 +25,15 @@ import com.projeto.model.Filial;
 
 public class Controller{
 
-    public void salvarFilial(String nome, String endereco, Gson gson){
+
+    /**
+     * @param nome
+     * @param endereco
+     * @return retona true se a filial for salva com sucesso
+     */
+    public boolean salvarFilial(String nome, String endereco){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
         Filial cadastro = new Filial(nome, endereco);
 
         String filePath = "filiais.json";
@@ -37,6 +45,7 @@ public class Controller{
 
         if (isDir) {
             System.out.println("File is a Directory");
+            return false;
         }
         else if (exists) {
             System.out.println("Arquivo existe");
@@ -54,8 +63,10 @@ public class Controller{
                 String updatedJsonString = gson.toJson(listafilial);
                 Files.write(Paths.get("filiais.json"), updatedJsonString.getBytes());
 
+                return true;
             } catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
         }
         else if (notExists) {
@@ -70,17 +81,25 @@ public class Controller{
                     fileWriter.write(jsonUser);
                     fileWriter.flush();
                 }
+                return true;
             } catch (Exception e) {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Ocorreu um erro ao gravar o arquivo");
+                return false;
             }
         }
         else {
             System.out.println("Program doesn't have access to the file!!");
+            return false;
         }
-        
+
     }
 
+    /**
+     * @param cominhodoarquivo
+     * @param combofilial
+     * @return combobox com todas as filiais
+     */
     public JComboBox<String> comboFilial(String cominhodoarquivo,JComboBox<String> combofilial){
         try{
             FileReader readerfilial = new FileReader(cominhodoarquivo);
@@ -96,6 +115,11 @@ public class Controller{
         return combofilial;
     }
     
+    /**
+     * @param cominhodoarquivo
+     * @param listafilial
+     * @return retorna um array list com todas as filiais
+     */
     public ArrayList<Filial> listaFilial(String cominhodoarquivo,ArrayList<Filial> listafilial){
         try{
             FileReader readerfilial = new FileReader(cominhodoarquivo);
@@ -111,6 +135,12 @@ public class Controller{
         return listafilial;
     }
 
+    /**
+     * @param cominhodoarquivo
+     * @param listaf
+     * @return retorna um array list com todas as canecas
+     * @throws FileNotFoundException
+     */
     public ArrayList<Caneca> listaCaneca(String cominhodoarquivo, ArrayList<Caneca> listaf) throws FileNotFoundException{
         FileReader readerf = new FileReader("caneca.json");
         JsonArray jsonArrayf = (JsonArray) JsonParser.parseReader(readerf);
@@ -122,6 +152,12 @@ public class Controller{
         return listaf;
     }
 
+    /**
+     * @param cominhodoarquivo
+     * @param listav
+     * @return retorna um array list com todas os cursos
+     * @throws FileNotFoundException
+     */
     public ArrayList<Curso> listaCurso(String cominhodoarquivo, ArrayList<Curso> listav) throws FileNotFoundException{
         FileReader readerv = new FileReader("curso.json");
         JsonArray jsonArrayv = (JsonArray) JsonParser.parseReader(readerv);
@@ -133,7 +169,19 @@ public class Controller{
         return listav;
     }
     
-    public void salvarCurso(Gson gson, String nome, String descricao, int codigo, int quantidade, float preco, JComboBox<String> combofilial) {
+    
+    /**
+     * @param nome
+     * @param descricao
+     * @param codigo
+     * @param quantidade
+     * @param preco
+     * @param combofilial
+     * @return retona true se o curso for salvo com sucesso
+     */
+    public boolean salvarCurso(String nome, String descricao, int codigo, int quantidade, float preco, JComboBox<String> combofilial) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
         Curso cadastro = new Curso(nome, descricao, codigo, quantidade, preco, String.valueOf(combofilial.getSelectedItem()));
         
         String filePath = "curso.json";
@@ -145,6 +193,7 @@ public class Controller{
 
         if (isDir) {
             System.out.println("File is a Directory");
+            return false;
         }
         else if (exists) {
             System.out.println("Arquivo existe");
@@ -166,6 +215,7 @@ public class Controller{
                 
             } catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
         }
         else if (notExists) {
@@ -185,10 +235,12 @@ public class Controller{
 
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null ,"Ocorreu um erro ao gravar o arquivo");
+                return false;
             }
         }
         else {
             System.out.println("Program doesn't have access to the file!!");
+            return false;
         }
         ArrayList<Filial> listafilial = new ArrayList<Filial>();
         listafilial = listaFilial("filiais.json", listafilial);
@@ -204,11 +256,26 @@ public class Controller{
             Files.write(Paths.get("filiais.json"), updatedJsonString.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
-        JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
+        
+        return true;
     }
 
-    public void salvarCaneca(Gson gson, String nome, String descricao, int codigo, int quantidade, float preco, JComboBox<String> combofilial, float peso) {
+    
+    /**
+     * @param nome
+     * @param descricao
+     * @param codigo
+     * @param quantidade
+     * @param preco
+     * @param combofilial
+     * @param peso
+     * @return retona true se a caneca for salva com sucesso
+     */
+    public boolean salvarCaneca(String nome, String descricao, int codigo, int quantidade, float preco, JComboBox<String> combofilial, float peso) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
         Caneca cadastro = new Caneca(nome, descricao, codigo, quantidade, preco, String.valueOf(combofilial.getSelectedItem()),peso);
 
         String filePath = "caneca.json";
@@ -220,6 +287,7 @@ public class Controller{
 
         if (isDir) {
             System.out.println("File is a Directory");
+            return false;
         }
         else if (exists) {
             System.out.println("Arquivo existe");
@@ -242,6 +310,7 @@ public class Controller{
             
             } catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
         }
         else if (notExists) {
@@ -260,10 +329,12 @@ public class Controller{
                 fileWriter.close();
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Ocorreu um erro ao gravar o arquivo");
+                return false;
             }
         }
         else {
             System.out.println("Program doesn't have access to the file!!");
+            return false;
         }
         ArrayList<Filial> listafilial = new ArrayList<Filial>();
         listafilial = listaFilial("filiais.json", listafilial);
@@ -279,11 +350,20 @@ public class Controller{
             Files.write(Paths.get("filiais.json"), updatedJsonString.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
         
-        JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
+        return true;
     }
 
+    /**
+     * @param buttonnome
+     * @param textonome
+     * @param buttonendereco
+     * @param textoendereco
+     * @throws FileNotFoundException
+     * @throws Exception
+     */
     public void removerFilial(JRadioButton buttonnome, String textonome, JRadioButton buttonendereco, String textoendereco ) throws FileNotFoundException, Exception{
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -328,6 +408,14 @@ public class Controller{
 
     }
 
+    /**
+     * @param buttonnome
+     * @param textonome
+     * @param buttoncodigo
+     * @param textocodigo
+     * @throws FileNotFoundException
+     * @throws Exception
+     */
     public void removerProduto(JRadioButton buttonnome, String textonome, JRadioButton buttoncodigo, String textocodigo)throws FileNotFoundException, Exception{
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -399,6 +487,15 @@ public class Controller{
             
     }
 
+    /**
+     * @param listaf
+     * @param textonome
+     * @param textodescricao
+     * @param textocodigo
+     * @param textoquantidade
+     * @param textopreco
+     * @param textopeso
+     */
     public void updateProdutoCaneca(JList<Caneca> listaf, String textonome, String textodescricao, String textocodigo, String textoquantidade, String textopreco, String textopeso){
             Caneca p = listaf.getSelectedValue();
             if(textonome != null && !textonome.isEmpty()){
@@ -440,6 +537,15 @@ public class Controller{
             }
     }
     
+    /**
+     * @param listav
+     * @param textonome
+     * @param textodescricao
+     * @param textocodigo
+     * @param textoquantidade
+     * @param textopreco
+     * @param textoplano
+     */
     public void updateProdutoCurso(JList<Curso> listav, String textonome, String textodescricao, String textocodigo, String textoquantidade, String textopreco, String textoplano){
         Curso p = listav.getSelectedValue();
         if(textonome != null && !textonome.isEmpty()){
@@ -481,6 +587,11 @@ public class Controller{
         }
     }
 
+    /**
+     * @param listaFilial
+     * @param textonome
+     * @param textoendereco
+     */
     public void updateFilial(JList<Filial> listaFilial, String textonome, String textoendereco){
         Filial p = listaFilial.getSelectedValue();
         if(textonome != null && !textonome.isEmpty()){

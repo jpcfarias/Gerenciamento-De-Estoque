@@ -2,8 +2,6 @@ package com.projeto.view;
 
 import javax.swing.*;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.projeto.control.Controller;
 
 import java.awt.*;
@@ -53,10 +51,8 @@ public class TelaCadastroFilial extends JFrame {
             try {
                 String nome = textonome.getText();
                 String endereco = textoendereco.getText();
-
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
                             
-                controller.salvarFilial(nome, endereco, gson);
+                controller.salvarFilial(nome, endereco);
 
                 JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso");
 

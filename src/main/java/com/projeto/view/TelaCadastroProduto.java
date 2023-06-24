@@ -3,9 +3,6 @@ package com.projeto.view;
 
 import javax.swing.*;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.awt.*;
 
 import com.projeto.control.Controller;
@@ -157,9 +154,9 @@ public class TelaCadastroProduto extends JDialog{
                     float preco = Float.parseFloat(textopreco.getText());
                     int quantidade = Integer.parseInt(textoquantidade.getText());
 
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    controller.salvarCurso(nome, descricao, codigo, quantidade, preco, combofilial);
 
-                    controller.salvarCurso(gson, nome, descricao, codigo, quantidade, preco, combofilial);
+                    JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
 
                     TelaCadastroProduto.this.dispose();
 
@@ -177,9 +174,9 @@ public class TelaCadastroProduto extends JDialog{
                     float preco = Float.parseFloat(textopreco.getText());
                     int quantidade = Integer.parseInt(textoquantidade.getText());
                     
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    
-                    controller.salvarCaneca(gson, nome, descricao, codigo, quantidade, preco, combofilial, peso);
+                    controller.salvarCaneca(nome, descricao, codigo, quantidade, preco, combofilial, peso);
+
+                    JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
                     
                     TelaCadastroProduto.this.dispose();
                 }catch(java.lang.NumberFormatException e){

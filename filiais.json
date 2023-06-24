@@ -2,7 +2,7 @@
   {
     "nome": "filial 1",
     "endereco": "1 filial",
-    "numerodeprodutos": 2,
+    "numerodeprodutos": 24,
     "listaDeCanecasNaFilial": [
       {
         "peso": 1239.0,
@@ -20,6 +20,15 @@
         "codigo": 42,
         "quantidade": 0,
         "preco": 123.0,
+        "filial": "filial 1"
+      },
+      {
+        "peso": 15.0,
+        "nome": "Caneca 3",
+        "descricao": "jaisodji",
+        "codigo": 242,
+        "quantidade": 2,
+        "preco": 20.0,
         "filial": "filial 1"
       }
     ],
@@ -40,6 +49,15 @@
         "codigo": 934,
         "quantidade": 0,
         "preco": 835.0,
+        "filial": "filial 1"
+      },
+      {
+        "plano": "Basico",
+        "nome": "Curso 3",
+        "descricao": "asdjioa",
+        "codigo": 2452,
+        "quantidade": 20,
+        "preco": 3500.0,
         "filial": "filial 1"
       }
     ]

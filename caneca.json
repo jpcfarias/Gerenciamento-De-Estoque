@@ -16,5 +16,14 @@
     "quantidade": 0,
     "preco": 123.0,
     "filial": "filial 1"
+  },
+  {
+    "peso": 15.0,
+    "nome": "Caneca 3",
+    "descricao": "jaisodji",
+    "codigo": 242,
+    "quantidade": 2,
+    "preco": 20.0,
+    "filial": "filial 1"
   }
 ]

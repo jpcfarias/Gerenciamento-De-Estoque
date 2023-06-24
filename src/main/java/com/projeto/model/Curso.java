@@ -1,7 +1,10 @@
 package com.projeto.model;
 
 public class Curso extends Produto{
-    //planos disponiveis:Basico(apos a compra), Premium.
+    
+    /**
+     * tipos de planos: Basico e Premium
+     */
     private String plano = "Basico";
 
     public Curso(String nome, String descricao, int codigo, int quantidade, float preco, String filial) {

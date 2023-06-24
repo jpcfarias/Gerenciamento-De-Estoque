@@ -16,5 +16,14 @@
     "quantidade": 0,
     "preco": 835.0,
     "filial": "filial 1"
+  },
+  {
+    "plano": "Basico",
+    "nome": "Curso 3",
+    "descricao": "asdjioa",
+    "codigo": 2452,
+    "quantidade": 20,
+    "preco": 3500.0,
+    "filial": "filial 1"
   }
 ]
