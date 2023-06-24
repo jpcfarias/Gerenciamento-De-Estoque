@@ -9,9 +9,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
+/**
+ * @author Leonardo, Felipe, Joao
+ * Classe view Tela para remover Filiais cadastradas, por nome ou endereco
+*/
+
 public class TelaRemoverFilial extends JFrame{
 
-    //private JFrame frame = new JFrame();
     private JPanel jPanel = new JPanel(new GridBagLayout());
     private JLabel labelnome = new JLabel("Nome da Filial: ");
     private JLabel labelendereco = new JLabel("Endereco da Filial: ");

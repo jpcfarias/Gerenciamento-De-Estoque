@@ -2,6 +2,10 @@ package com.projeto.model;
 
 import java.util.ArrayList;
 
+/**
+ * @author Leonardo, Felipe, Joao
+ * Classe model Filial, para instanciar Filiais
+*/
 public class Filial{
     private String nome;
     private String endereco;
@@ -9,6 +13,10 @@ public class Filial{
     private ArrayList<Caneca> listaDeCanecasNaFilial = new ArrayList<Caneca>();
     private ArrayList<Curso> listaDeCursosNaFilial = new ArrayList<Curso>();
 
+    /**
+     * @param nome
+     * @param endereco
+     */
     public Filial(String nome, String endereco) {
         this.endereco = endereco;
         this.nome = nome;

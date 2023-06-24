@@ -16,8 +16,13 @@ import java.io.FileReader;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
+/**
+ * @author Leonardo, Felipe, Joao
+ * Classe view Tela para atualizar informaçoes de Produtos já cadastradas
+*/
+
 public class TelaUpdateProduto extends JDialog{
-    //JFrame frame = new JFrame();
+
     private JPanel jPanel = new JPanel(new GridBagLayout());
     private DefaultListModel<Caneca> modelf = new DefaultListModel<Caneca>();
     private DefaultListModel<Curso> modelv = new DefaultListModel<Curso>();

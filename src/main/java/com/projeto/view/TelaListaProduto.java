@@ -20,7 +20,10 @@ import java.util.ArrayList;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
-
+/**
+ * @author Leonardo, Felipe, Joao
+ * Classe view Tela para ver todos os produtos cadastrados, com filtro de busca
+*/
 public class TelaListaProduto extends JDialog {
     
     private ArrayList<Caneca> listaf = new ArrayList<Caneca>();

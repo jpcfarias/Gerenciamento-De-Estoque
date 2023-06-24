@@ -61,5 +61,12 @@
         "filial": "filial 1"
       }
     ]
+  },
+  {
+    "nome": "Filial 2",
+    "endereco": "2 Filial",
+    "numerodeprodutos": 0,
+    "listaDeCanecasNaFilial": [],
+    "listaDeCursosNaFilial": []
   }
 ]

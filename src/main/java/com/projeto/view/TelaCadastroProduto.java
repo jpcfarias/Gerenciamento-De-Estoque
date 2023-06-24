@@ -7,6 +7,10 @@ import java.awt.*;
 
 import com.projeto.control.Controller;
 
+/**
+ * @author Leonardo, Felipe, Joao
+ * Classe view Tela de cadastro de Produtos
+*/
 public class TelaCadastroProduto extends JDialog{
     private JPanel jPanel = new JPanel(new GridBagLayout());
     //declarando as label's

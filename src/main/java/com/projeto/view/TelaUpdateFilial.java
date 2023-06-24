@@ -15,8 +15,13 @@ import java.io.FileReader;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
+/**
+ * @author Leonardo, Felipe, Joao
+ * Classe view Tela para atualizar informaçoes de Filiais já cadastradas
+*/
+
 public class TelaUpdateFilial extends JDialog{
-    //JFrame frame = new JFrame();
+
     private JPanel jPanel = new JPanel(new GridBagLayout());
     private DefaultListModel<Filial> modelFilial = new DefaultListModel<Filial>();
     private JList<Filial> listaFilial = new JList<Filial>();
@@ -85,7 +90,6 @@ public class TelaUpdateFilial extends JDialog{
         }
         
 
-        //add(jPanel, BorderLayout.WEST);
         add(splitPane);
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

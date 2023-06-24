@@ -9,9 +9,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
+/**
+ * @author Leonardo, Felipe, Joao
+ * Classe view Tela para remover Produtos cadastradas, por nome ou codigo
+*/
+
 public class TelaRemoverProdutos extends JFrame{
 
-    //JFrame frame = new JFrame();
     private JPanel jPanel = new JPanel(new GridBagLayout());
     private JLabel labelnome = new JLabel("Nome do Produto: ");
     private JLabel labelcodigo = new JLabel("Codigo do Produto: ");

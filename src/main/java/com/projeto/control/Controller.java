@@ -23,6 +23,11 @@ import com.projeto.model.Caneca;
 import com.projeto.model.Curso;
 import com.projeto.model.Filial;
 
+/**
+ * @author Leonardo, Felipe, Joao
+ * Classe controller, intercepta as informaçoes mandadas entre o view e o model aplicando as regras de negocios e funçoes do crud
+*/
+
 public class Controller{
 
 

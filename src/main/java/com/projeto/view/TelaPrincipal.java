@@ -8,9 +8,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
+/**
+ * @author Leonardo, Felipe, Joao
+ * Classe view Tela de menu principal
+*/
+
 public class TelaPrincipal extends JDialog{
 
-    //JFrame frame = new JFrame();
     private JPanel jPanel = new JPanel(new GridBagLayout());
     
     private JLabel labelfilial = new JLabel("Tela Filial");

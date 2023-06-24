@@ -5,7 +5,10 @@ import javax.swing.*;
 import com.projeto.control.Controller;
 
 import java.awt.*;
-
+/**
+ * @author Leonardo, Felipe, Joao
+ * Classe view Tela de cadastro de Filiais
+*/
 public class TelaCadastroFilial extends JFrame {
     private JPanel jPanel = new JPanel(new GridBagLayout());
     private JLabel labelnome = new JLabel("Digite o Nome da Filial: ");

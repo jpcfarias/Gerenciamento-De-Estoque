@@ -1,5 +1,10 @@
 package com.projeto.model;
 
+
+/**
+ * @author Leonardo, Felipe, Joao
+ * Classe model Curso, para instanciar o produto Curso
+*/
 public class Curso extends Produto{
     
     /**
@@ -7,6 +12,14 @@ public class Curso extends Produto{
      */
     private String plano = "Basico";
 
+    /**
+     * @param nome
+     * @param descricao
+     * @param codigo
+     * @param quantidade
+     * @param preco
+     * @param filial
+     */
     public Curso(String nome, String descricao, int codigo, int quantidade, float preco, String filial) {
         super(nome, descricao, codigo, quantidade, preco, filial);
     }

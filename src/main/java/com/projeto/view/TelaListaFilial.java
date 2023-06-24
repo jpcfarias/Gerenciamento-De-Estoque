@@ -12,6 +12,11 @@ import com.projeto.model.Caneca;
 import com.projeto.model.Curso;
 import com.projeto.model.Filial;
 
+/**
+ * @author Leonardo, Felipe, Joao
+ * Classe view Tela para ver todas as filiais cadastradas, com filtro de itens disponiveis em estoque e com estoque zerado
+*/
+
 public class TelaListaFilial extends JFrame{
     private JPanel jPanel = new JPanel(new GridBagLayout(), false);
     private JComboBox<String> combofilial = new JComboBox<>();

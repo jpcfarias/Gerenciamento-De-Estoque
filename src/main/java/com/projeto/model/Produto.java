@@ -1,5 +1,10 @@
 package com.projeto.model;
 
+/**
+ * @author Leonardo, Felipe, Joao
+ * Classe abstrata model Produto, Mae das classes curso e caneca
+*/
+
 public abstract class Produto {
     protected String nome;
     protected String descricao;
@@ -8,6 +13,14 @@ public abstract class Produto {
     protected float preco;
     protected String filial;
     
+    /**
+     * @param nome
+     * @param descricao
+     * @param codigo
+     * @param quantidade
+     * @param preco
+     * @param filial
+     */
     protected Produto(String nome, String descricao, int codigo, int quantidade, float preco, String filial) {
         this.nome = nome;
         this.descricao = descricao;
