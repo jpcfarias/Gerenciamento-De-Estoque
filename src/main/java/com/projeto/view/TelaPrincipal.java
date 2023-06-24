@@ -10,20 +10,20 @@ import java.awt.GridBagConstraints;
 
 public class TelaPrincipal extends JDialog{
 
-    JFrame frame = new JFrame();
+    //JFrame frame = new JFrame();
     private JPanel jPanel = new JPanel(new GridBagLayout());
     
-    JLabel labelfilial = new JLabel("Tela Filial");
-    JButton Cadastrofilial = new JButton("Cadastro");
-    JButton Listafilial = new JButton("Lista");
-    JButton Updatefilial = new JButton("Update");
-    JButton Deletefilial= new JButton("Delete");
+    private JLabel labelfilial = new JLabel("Tela Filial");
+    private JButton Cadastrofilial = new JButton("Cadastro");
+    private JButton Listafilial = new JButton("Lista");
+    private JButton Updatefilial = new JButton("Update");
+    private JButton Deletefilial= new JButton("Delete");
 
-    JLabel labelproduto = new JLabel("Tela Produto");
-    JButton Cadastroproduto = new JButton("Cadastro");
-    JButton Listaproduto = new JButton("Lista");
-    JButton Updateproduto = new JButton("Update");
-    JButton Deleteproduto = new JButton("Delete");
+    private JLabel labelproduto = new JLabel("Tela Produto");
+    private JButton Cadastroproduto = new JButton("Cadastro");
+    private JButton Listaproduto = new JButton("Lista");
+    private JButton Updateproduto = new JButton("Update");
+    private JButton Deleteproduto = new JButton("Delete");
 
     public TelaPrincipal() {
         setTitle("Tela Princial");

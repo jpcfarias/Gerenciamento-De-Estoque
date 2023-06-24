@@ -6,13 +6,13 @@ public class Filial{
     private String nome;
     private String endereco;
     private int numerodeprodutos;
-    private ArrayList<Produto> listaDeProdutosNaFilial;
-    
+    private ArrayList<Caneca> listaDeCanecasNaFilial = new ArrayList<Caneca>();
+    private ArrayList<Curso> listaDeCursosNaFilial = new ArrayList<Curso>();
+
     public Filial(String nome, String endereco) {
         this.endereco = endereco;
         this.nome = nome;
         this.numerodeprodutos = 0;
-        ArrayList<Produto> listaDeProdutosNaFilial = new ArrayList<Produto>();
     }
 
     public int getNumerodeprodutos() {
@@ -39,12 +39,36 @@ public class Filial{
         this.endereco = endereco;
     }
 
-    public ArrayList<Produto> getListaDeProdutosNaFilial() {
-        return listaDeProdutosNaFilial;
+    public ArrayList<Caneca> getListaDeCanecasNaFilial() {
+        return listaDeCanecasNaFilial;
     }
 
-    public void addListaDeProdutosNaFilial(Produto produto) {
-        listaDeProdutosNaFilial.add(produto);
+    public void setListaDeCanecasNaFilial(ArrayList<Caneca> listaDeCanecasNaFilial) {
+        this.listaDeCanecasNaFilial = listaDeCanecasNaFilial;
+    }
+
+    public ArrayList<Curso> getListaDeCursosNaFilial() {
+        return listaDeCursosNaFilial;
+    }
+
+    public void setListaDeCursosNaFilial(ArrayList<Curso> listaDeCursosNaFilial) {
+        this.listaDeCursosNaFilial = listaDeCursosNaFilial;
+    }
+
+    public void addCanecaNaFilial(Caneca caneca) {
+        listaDeCanecasNaFilial.add(caneca);
+    }
+
+    public void addCursoNaFilial(Curso curso) {
+        listaDeCursosNaFilial.add(curso);
+    }
+
+    public Caneca getCanecaNaFilial(int index){
+        return listaDeCanecasNaFilial.get(index);
+    }
+
+    public Curso getCursoNaFilial(int index){
+        return listaDeCursosNaFilial.get(index);
     }
 
     @Override

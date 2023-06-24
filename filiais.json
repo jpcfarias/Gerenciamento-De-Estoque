@@ -2,6 +2,46 @@
   {
     "nome": "filial 1",
     "endereco": "1 filial",
-    "numerodeprodutos": 14
+    "numerodeprodutos": 2,
+    "listaDeCanecasNaFilial": [
+      {
+        "peso": 1239.0,
+        "nome": "Caneca 1",
+        "descricao": "aisdjio",
+        "codigo": 123,
+        "quantidade": 1,
+        "preco": 23940.0,
+        "filial": "filial 1"
+      },
+      {
+        "peso": 123.0,
+        "nome": "Caneca 2",
+        "descricao": "asdjio",
+        "codigo": 42,
+        "quantidade": 0,
+        "preco": 123.0,
+        "filial": "filial 1"
+      }
+    ],
+    "listaDeCursosNaFilial": [
+      {
+        "plano": "Basico",
+        "nome": "Curso 1",
+        "descricao": "aosdko",
+        "codigo": 25,
+        "quantidade": 1,
+        "preco": 24.0,
+        "filial": "filial 1"
+      },
+      {
+        "plano": "Basico",
+        "nome": "Curso 2",
+        "descricao": "skmad",
+        "codigo": 934,
+        "quantidade": 0,
+        "preco": 835.0,
+        "filial": "filial 1"
+      }
+    ]
   }
 ]

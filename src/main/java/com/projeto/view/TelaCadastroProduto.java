@@ -13,26 +13,26 @@ import com.projeto.control.Controller;
 public class TelaCadastroProduto extends JDialog{
     private JPanel jPanel = new JPanel(new GridBagLayout());
     //declarando as label's
-    JLabel labelnome = new JLabel("Digite o Nome do produto: ");
-    JLabel labeldescricao = new JLabel("Digite a Descricao do produto: ");
-    JLabel labelcodigo = new JLabel("Digite o codigo do produto: ");
-    JLabel labelquantidade = new JLabel("Digite a Quantidade: ");
-    JLabel labelpreco = new JLabel("Digite o Valor: ");
-    JLabel labelpeso = new JLabel("Digite o Peso: ");
+    private JLabel labelnome = new JLabel("Digite o Nome do produto: ");
+    private JLabel labeldescricao = new JLabel("Digite a Descricao do produto: ");
+    private JLabel labelcodigo = new JLabel("Digite o codigo do produto: ");
+    private JLabel labelquantidade = new JLabel("Digite a Quantidade: ");
+    private JLabel labelpreco = new JLabel("Digite o Valor: ");
+    private JLabel labelpeso = new JLabel("Digite o Peso: ");
     //declarando os textfild
-    JTextField textonome = new JTextField();
-    JTextField textodescricao = new JTextField();
-    JTextField textocodigo = new JTextField();
-    JTextField textoquantidade = new JTextField();
-    JTextField textopreco = new JTextField();
-    JTextField textopeso = new JTextField();
+    private JTextField textonome = new JTextField();
+    private JTextField textodescricao = new JTextField();
+    private JTextField textocodigo = new JTextField();
+    private JTextField textoquantidade = new JTextField();
+    private JTextField textopreco = new JTextField();
+    private JTextField textopeso = new JTextField();
     //declarando os botoes
-    JButton ok = new JButton("OK");
+    private JButton ok = new JButton("OK");
     //declarando combobox
-    JComboBox<String> combo = new JComboBox<String>();
-    JComboBox<String> combofilial = new JComboBox<String>();
+    private JComboBox<String> combo = new JComboBox<String>();
+    private JComboBox<String> combofilial = new JComboBox<String>();
     //lista
-    Controller controller = new Controller();
+    private Controller controller = new Controller();
     
     
     public TelaCadastroProduto(){

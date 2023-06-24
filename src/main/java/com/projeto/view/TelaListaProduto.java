@@ -23,13 +23,13 @@ import java.awt.GridBagConstraints;
 
 public class TelaListaProduto extends JDialog {
     
-    ArrayList<Caneca> listaf = new ArrayList<Caneca>();
-    ArrayList<Curso> listav = new ArrayList<Curso>();
+    private ArrayList<Caneca> listaf = new ArrayList<Caneca>();
+    private ArrayList<Curso> listav = new ArrayList<Curso>();
     private JPanel jPanel = new JPanel(new GridBagLayout(), false);
-    JLabel labeltitulo = new JLabel("Lista com os produtos:");
-    JTextField textobuscar = new JTextField();
-    JButton buttonbuscar = new JButton("Buscar");
-    JButton buttonfechar = new JButton("Fechar");
+    private JLabel labeltitulo = new JLabel("Lista com os produtos:");
+    private JTextField textobuscar = new JTextField();
+    private JButton buttonbuscar = new JButton("Buscar");
+    private JButton buttonfechar = new JButton("Fechar");
     private DefaultTableCellRenderer cellRenderer;
     private JScrollPane scrollPanef = new JScrollPane();
     private JScrollPane scrollPanev = new JScrollPane();

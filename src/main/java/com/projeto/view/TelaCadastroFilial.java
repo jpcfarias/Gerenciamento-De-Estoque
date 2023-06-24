@@ -2,18 +2,20 @@ package com.projeto.view;
 
 import javax.swing.*;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.projeto.control.Controller;
 
 import java.awt.*;
 
 public class TelaCadastroFilial extends JFrame {
     private JPanel jPanel = new JPanel(new GridBagLayout());
-    JLabel labelnome = new JLabel("Digite o Nome da Filial: ");
-    JLabel labelendereco = new JLabel("Digite a Cidade da Filial: ");
-    JTextField textonome = new JTextField();
-    JTextField textoendereco = new JTextField();
-    JButton buttoncadastrar = new JButton("Cadastrar");
-    Controller controller = new Controller();
+    private JLabel labelnome = new JLabel("Digite o Nome da Filial: ");
+    private JLabel labelendereco = new JLabel("Digite a Cidade da Filial: ");
+    private JTextField textonome = new JTextField();
+    private JTextField textoendereco = new JTextField();
+    private JButton buttoncadastrar = new JButton("Cadastrar");
+    private Controller controller = new Controller();
     
     public TelaCadastroFilial(){
         setTitle("TelaCadastro");
@@ -51,8 +53,10 @@ public class TelaCadastroFilial extends JFrame {
             try {
                 String nome = textonome.getText();
                 String endereco = textoendereco.getText();
+
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
                             
-                controller.salvarFilial(nome, endereco);
+                controller.salvarFilial(nome, endereco, gson);
 
                 JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso");
 

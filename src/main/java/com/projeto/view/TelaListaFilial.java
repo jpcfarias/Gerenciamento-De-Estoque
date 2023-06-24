@@ -1,31 +1,32 @@
 package com.projeto.view;
 
 import java.awt.*;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import com.projeto.control.Controller;
 import com.projeto.model.Caneca;
 import com.projeto.model.Curso;
 import com.projeto.model.Filial;
 
 public class TelaListaFilial extends JFrame{
     private JPanel jPanel = new JPanel(new GridBagLayout(), false);
-    JComboBox<String> combofilial = new JComboBox<>();
-    private transient ArrayList<Caneca> listaf = new ArrayList<>();
-    private transient ArrayList<Curso> listav = new ArrayList<>();
-    private transient ArrayList<Filial> listafilial = new ArrayList<>();
-    private transient ArrayList<Object> listatotal = new ArrayList<>();
+    private JComboBox<String> combofilial = new JComboBox<>();
+    private ButtonGroup buttonGroup = new ButtonGroup();
+    private JRadioButton buttondisponivel = new JRadioButton("", true) ;
+    private JRadioButton buttonzerado = new JRadioButton(); 
+    private JLabel labeldisponivel = new JLabel("Disponivel: ");
+    private JLabel labelzero = new JLabel("Zerado: ");
+    private ArrayList<Caneca> listaf = new ArrayList<>();
+    private ArrayList<Curso> listav = new ArrayList<>();
+    private ArrayList<Filial> listafilial = new ArrayList<>();
+    private ArrayList<Object> listatotal = new ArrayList<>();
     private JScrollPane scrollPane = new JScrollPane();
     private DefaultTableCellRenderer cellRenderer;
+    private Controller controller = new Controller();
     
     public TelaListaFilial() {
         setTitle("Tela Lista");
@@ -36,14 +37,32 @@ public class TelaListaFilial extends JFrame{
         gridBagConstains.insets = new Insets(5,0,0,0);
         gridBagConstains.gridx = 0;
         gridBagConstains.gridy = 0;
-        
+        gridBagConstains.anchor = GridBagConstraints.CENTER;
+        gridBagConstains.gridwidth = 2;
         jPanel.add(combofilial, gridBagConstains);
+        gridBagConstains.gridwidth = 1;
         gridBagConstains.gridy ++;
+        jPanel.add(labeldisponivel, gridBagConstains);
+        gridBagConstains.gridx ++;
+        jPanel.add(buttondisponivel, gridBagConstains);
+        gridBagConstains.gridy ++;
+        gridBagConstains.gridx --;
+        jPanel.add(labelzero, gridBagConstains);
+        gridBagConstains.gridx ++;
+        jPanel.add(buttonzerado, gridBagConstains);
+        gridBagConstains.gridy ++;
+        gridBagConstains.gridx --;
+        gridBagConstains.gridwidth = 2;
+
+        buttonGroup.add(buttondisponivel);
+        buttonGroup.add(buttonzerado);
         try{
-            combofilial = listarr.filialcombobox("filiais.json", combofilial);
-            listafilial = listarr.filiallista("filiais.json", listafilial);
-            listaf = listarr.produtoFisico("caneca.json", listaf);
-            listav = listarr.produtoVirtual("curso.json", listav);
+            combofilial.addItem("Todas");
+            combofilial = controller.comboFilial("filiais.json", combofilial);
+            combofilial.setSelectedItem("Todas");
+            listafilial = controller.listaFilial("filiais.json", listafilial);
+            listaf = controller.listaCaneca("caneca.json", listaf);
+            listav = controller.listaCurso("curso.json", listav);
             listatotal.addAll(listaf);
             listatotal.addAll(listav);
 
@@ -72,6 +91,64 @@ public class TelaListaFilial extends JFrame{
             cellRenderer.setHorizontalAlignment(JLabel.CENTER);
             jtable.getColumnModel().getColumn(0).setCellRenderer(cellRenderer);
             jPanel.add(scrollPane, gridBagConstains);
+
+            combofilial.addActionListener(actioncombobox -> {
+                jPanel.remove(jtable);
+                jPanel.remove(scrollPane);
+                DefaultTableModel modelDeprodutos = new DefaultTableModel();
+                modelDeprodutos.addColumn("Nome");
+                modelDeprodutos.addColumn("Quantidade");
+
+                for (int i = 0; i < listafilial.size(); i++) {
+                    if(combofilial.getSelectedItem().equals(listafilial.get(i).getNome())){
+                        for(int j = 0; j < listafilial.get(i).getListaDeCanecasNaFilial().size(); j++){
+                            if(buttondisponivel.isSelected() == true){
+                                if(listafilial.get(i).getCanecaNaFilial(j).getQuantidade() != 0){
+                                    modelDeprodutos.addRow(new Object[]{listafilial.get(i).getCanecaNaFilial(j), listafilial.get(i).getCanecaNaFilial(j).getQuantidade()});
+                                }
+                            }
+                            if(buttonzerado.isSelected() == true){
+                                if(listafilial.get(i).getCanecaNaFilial(j).getQuantidade() == 0){
+                                    modelDeprodutos.addRow(new Object[]{listafilial.get(i).getCanecaNaFilial(j), listafilial.get(i).getCanecaNaFilial(j).getQuantidade()});
+                                }
+                            }
+                        }
+                        for(int j = 0; j < listafilial.get(i).getListaDeCursosNaFilial().size(); j++){
+                            if(buttondisponivel.isSelected() == true){
+                                if(listafilial.get(i).getCursoNaFilial(j).getQuantidade() != 0){
+                                    modelDeprodutos.addRow(new Object[]{listafilial.get(i).getCursoNaFilial(j), listafilial.get(i).getCursoNaFilial(j).getQuantidade()});
+                                }
+                            }
+                            if(buttonzerado.isSelected() == true){
+                                if(listafilial.get(i).getCursoNaFilial(j).getQuantidade() == 0){
+                                    modelDeprodutos.addRow(new Object[]{listafilial.get(i).getCursoNaFilial(j), listafilial.get(i).getCursoNaFilial(j).getQuantidade()});
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+
+                JTable jtableDeProdutos = new JTable(modelDeprodutos){
+                    private static final long serialVersionUID = 1L;
+            
+                    @Override
+                    public boolean isCellEditable(int row, int column) {                
+                            return false;               
+                    }
+                };
+
+                jtableDeProdutos.setCellSelectionEnabled(false);
+                jtableDeProdutos.setFocusable(false);
+                scrollPane.setViewportView(jtableDeProdutos);
+                cellRenderer = new DefaultTableCellRenderer();
+                cellRenderer.setHorizontalAlignment(JLabel.CENTER);
+                jtableDeProdutos.getColumnModel().getColumn(0).setCellRenderer(cellRenderer);
+                jPanel.add(scrollPane, gridBagConstains);
+                
+                jPanel.revalidate();
+                jPanel.repaint();
+            });
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -79,58 +156,4 @@ public class TelaListaFilial extends JFrame{
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }  
-}
-
-class listarr{
-    public static JComboBox<String> filialcombobox(String cominhodoarquivo,JComboBox<String> combofilial){
-        try{
-            FileReader readerfilial = new FileReader(cominhodoarquivo);
-            JsonArray jsonArrayfilial = (JsonArray) JsonParser.parseReader(readerfilial);
-        
-            for (JsonElement jsonElement : jsonArrayfilial){
-                Filial cadastrofilial = new Gson().fromJson(jsonElement, Filial.class);
-                combofilial.addItem(cadastrofilial.getEndereco());
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return combofilial;
-    }
-
-    public static ArrayList<Filial> filiallista(String cominhodoarquivo,ArrayList<Filial> listafilial){
-        try{
-            FileReader readerfilial = new FileReader(cominhodoarquivo);
-            JsonArray jsonArrayfilial = (JsonArray) JsonParser.parseReader(readerfilial);
-        
-            for (JsonElement jsonElement : jsonArrayfilial){
-                Filial cadastrofilial = new Gson().fromJson(jsonElement, Filial.class);
-                listafilial.add(cadastrofilial);
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return listafilial;
-    }
-
-    public static ArrayList<Caneca> produtoFisico(String cominhodoarquivo, ArrayList<Caneca> listaf) throws FileNotFoundException{
-        FileReader readerf = new FileReader("caneca.json");
-        JsonArray jsonArrayf = (JsonArray) JsonParser.parseReader(readerf);
-        
-        for (JsonElement jsonElement : jsonArrayf){
-            Caneca cadastro1 = new Gson().fromJson(jsonElement, Caneca.class);
-            listaf.add(cadastro1);
-        }
-        return listaf;
-    }
-
-    public static ArrayList<Curso> produtoVirtual(String cominhodoarquivo, ArrayList<Curso> listav) throws FileNotFoundException{
-        FileReader readerv = new FileReader("curso.json");
-        JsonArray jsonArrayv = (JsonArray) JsonParser.parseReader(readerv);
-        
-        for (JsonElement jsonElement : jsonArrayv){
-            Curso cadastro2 = new Gson().fromJson(jsonElement, Curso.class);
-            listav.add(cadastro2);
-        }
-        return listav;
-    }
 }

@@ -3,46 +3,44 @@ package com.projeto.view;
 import javax.swing.*;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.projeto.control.Controller;
 import com.projeto.model.Caneca;
 import com.projeto.model.Curso;
 
 import java.awt.GridBagLayout;
 
 import java.io.FileReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
 public class TelaUpdateProduto extends JDialog{
-    JFrame frame = new JFrame();
+    //JFrame frame = new JFrame();
     private JPanel jPanel = new JPanel(new GridBagLayout());
-    DefaultListModel<Caneca> modelf = new DefaultListModel<Caneca>();
-    DefaultListModel<Curso> modelv = new DefaultListModel<Curso>();
-    JList<Caneca> listaf = new JList<Caneca>();
-    JList<Curso> listav = new JList<Curso>();
-    JLabel labelnome = new JLabel("Digite o Nome do produto: ");
-    JLabel labeldescricao = new JLabel("Digite a Descricao do produto: ");
-    JLabel labelcodigo = new JLabel("Digite o CODIGO do produto: ");
-    JLabel labelquantidade = new JLabel("Digite a QUANTIDADE do produto: ");
-    JLabel labelpreco = new JLabel("Digite o Valor do produto: ");
-    JLabel labelpeso = new JLabel("Digite o Peso do produto: ");
-    JLabel labelplano = new JLabel("Digite o Plano do produto: ");
-    JTextField textonome = new JTextField();
-    JTextField textodescricao = new JTextField();
-    JTextField textocodigo = new JTextField();
-    JTextField textoquantidade = new JTextField();
-    JTextField textopreco = new JTextField();
-    JTextField textopeso = new JTextField();
-    JTextField textoplano = new JTextField();
-    JSplitPane splitPane = new JSplitPane();
-    JButton salvar = new JButton("SALVAR");
-    JComboBox<String> combo = new JComboBox<String>();
+    private DefaultListModel<Caneca> modelf = new DefaultListModel<Caneca>();
+    private DefaultListModel<Curso> modelv = new DefaultListModel<Curso>();
+    private JList<Caneca> listaf = new JList<Caneca>();
+    private JList<Curso> listav = new JList<Curso>();
+    private JLabel labelnome = new JLabel("Digite o Nome do produto: ");
+    private JLabel labeldescricao = new JLabel("Digite a Descricao do produto: ");
+    private JLabel labelcodigo = new JLabel("Digite o CODIGO do produto: ");
+    private JLabel labelquantidade = new JLabel("Digite a QUANTIDADE do produto: ");
+    private JLabel labelpreco = new JLabel("Digite o Valor do produto: ");
+    private JLabel labelpeso = new JLabel("Digite o Peso do produto: ");
+    private JLabel labelplano = new JLabel("Digite o Plano do produto: ");
+    private JTextField textonome = new JTextField();
+    private JTextField textodescricao = new JTextField();
+    private JTextField textocodigo = new JTextField();
+    private JTextField textoquantidade = new JTextField();
+    private JTextField textopreco = new JTextField();
+    private JTextField textopeso = new JTextField();
+    private JTextField textoplano = new JTextField();
+    private JSplitPane splitPane = new JSplitPane();
+    private JButton salvar = new JButton("SALVAR");
+    private JComboBox<String> combo = new JComboBox<String>();
+    private Controller controller = new Controller();
 
     public TelaUpdateProduto(){
         setTitle("Tela Update");
@@ -147,84 +145,11 @@ public class TelaUpdateProduto extends JDialog{
             salvar.addActionListener(acao -> {     
                 try {
                     if(combo.getSelectedItem().equals("Canecas")){
-                        Caneca p = listaf.getSelectedValue();
-                        if(textonome.getText() != null && !textonome.getText().isEmpty()){
-                            p.setNome(textonome.getText());
-                        }
-                        if (textodescricao.getText() != null && !textodescricao.getText().isEmpty()) {
-                            p.setDescricao(textodescricao.getText());
-                        }
-                        if (textocodigo.getText() != null && !textocodigo.getText().isEmpty()) {
-                            int codigo = Integer.parseInt(textocodigo.getText());
-                            p.setCodigo(codigo);
-                        }
-                        if (textoquantidade.getText() != null && !textoquantidade.getText().isEmpty()) {
-                            int quantidade = Integer.parseInt(textoquantidade.getText());
-                            p.setQuantidade(quantidade);
-                        }
-                        if (textopreco.getText() != null && !textopreco.getText().isEmpty()) {
-                            float preco = Float.parseFloat(textopreco.getText());
-                            p.setPreco(preco); 
-                        }
-                        if (textopeso.getText() != null && !textopeso.getText().isEmpty()) {
-                            float peso = Float.parseFloat(textopeso.getText());
-                            p.setPeso(peso);   
-                        }
-                        try {
-                            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                            FileReader reader = new FileReader("caneca.json");
-                            JsonArray jsonArray = (JsonArray) JsonParser.parseReader(reader);
-                            java.util.List<Caneca> listacadastro = new ArrayList<Caneca>();
-                            for (JsonElement jsonElement : jsonArray){
-                                Caneca cadastro1 = new Gson().fromJson(jsonElement, Caneca.class);
-                                listacadastro.add(cadastro1);
-                            }
-                            listacadastro.set(listaf.getSelectedIndex(), p);
-                            String updatedJsonString = gson.toJson(listacadastro);
-                            Files.write(Paths.get("caneca.json"), updatedJsonString.getBytes());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        controller.updateProdutoCaneca(listaf, textonome.getText(), textodescricao.getText(), textocodigo.getText(), textoquantidade.getText(), textopreco.getText(), textopeso.getText());
                     }else if(combo.getSelectedItem().equals("Cursos")){
-                        Curso p = listav.getSelectedValue();
-                        if(textonome.getText() != null && !textonome.getText().isEmpty()){
-                            p.setNome(textonome.getText());
-                        }
-                        if (textodescricao.getText() != null && !textodescricao.getText().isEmpty()) {
-                            p.setDescricao(textodescricao.getText());
-                        }
-                        if (textocodigo.getText() != null && !textocodigo.getText().isEmpty()) {
-                            int codigo = Integer.parseInt(textocodigo.getText());
-                            p.setCodigo(codigo);
-                        }
-                        if (textoquantidade.getText() != null && !textoquantidade.getText().isEmpty()) {
-                            int quantidade = Integer.parseInt(textoquantidade.getText());
-                            p.setQuantidade(quantidade);
-                        }
-                        if (textopreco.getText() != null && !textopreco.getText().isEmpty()) {
-                            float preco = Float.parseFloat(textopreco.getText());
-                            p.setPreco(preco); 
-                        }
-                        if (textoplano.getText() != null && !textoplano.getText().isEmpty()) {
-                            String plano = textoplano.getText();
-                            p.setPlano(plano);   
-                        }
-                        try {
-                            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                            FileReader reader = new FileReader("curso.json");
-                            JsonArray jsonArray = (JsonArray) JsonParser.parseReader(reader);
-                            java.util.List<Curso> listacadastro = new ArrayList<Curso>();
-                            for (JsonElement jsonElement : jsonArray){
-                                Curso cadastro1 = new Gson().fromJson(jsonElement, Curso.class);
-                                listacadastro.add(cadastro1);
-                            }
-                            listacadastro.set(listav.getSelectedIndex(), p);
-                            String updatedJsonString = gson.toJson(listacadastro);
-                            Files.write(Paths.get("curso.json"), updatedJsonString.getBytes());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        controller.updateProdutoCurso(listav, textonome.getText(), textodescricao.getText(), textocodigo.getText(), textoquantidade.getText(), textopreco.getText(), textoplano.getText());
                     }
+                    
                     JOptionPane.showMessageDialog(this, "Atualizacao realizada com sucesso");
                     TelaUpdateProduto.this.dispose();
                 } catch (Exception e) {

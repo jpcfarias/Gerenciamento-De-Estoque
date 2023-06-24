@@ -1,5 +1,6 @@
 package com.projeto.control;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,7 +10,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,9 +25,7 @@ import com.projeto.model.Filial;
 
 public class Controller{
 
-    public boolean salvarFilial(String nome, String endereco){
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
+    public void salvarFilial(String nome, String endereco, Gson gson){
         Filial cadastro = new Filial(nome, endereco);
 
         String filePath = "filiais.json";
@@ -77,8 +78,7 @@ public class Controller{
         else {
             System.out.println("Program doesn't have access to the file!!");
         }
-
-        return true;
+        
     }
 
     public JComboBox<String> comboFilial(String cominhodoarquivo,JComboBox<String> combofilial){
@@ -111,7 +111,29 @@ public class Controller{
         return listafilial;
     }
 
-    public boolean salvarCurso(Gson gson, String nome, String descricao, int codigo, int quantidade, float preco, JComboBox<String> combofilial) {
+    public ArrayList<Caneca> listaCaneca(String cominhodoarquivo, ArrayList<Caneca> listaf) throws FileNotFoundException{
+        FileReader readerf = new FileReader("caneca.json");
+        JsonArray jsonArrayf = (JsonArray) JsonParser.parseReader(readerf);
+        
+        for (JsonElement jsonElement : jsonArrayf){
+            Caneca cadastro1 = new Gson().fromJson(jsonElement, Caneca.class);
+            listaf.add(cadastro1);
+        }
+        return listaf;
+    }
+
+    public ArrayList<Curso> listaCurso(String cominhodoarquivo, ArrayList<Curso> listav) throws FileNotFoundException{
+        FileReader readerv = new FileReader("curso.json");
+        JsonArray jsonArrayv = (JsonArray) JsonParser.parseReader(readerv);
+        
+        for (JsonElement jsonElement : jsonArrayv){
+            Curso cadastro2 = new Gson().fromJson(jsonElement, Curso.class);
+            listav.add(cadastro2);
+        }
+        return listav;
+    }
+    
+    public void salvarCurso(Gson gson, String nome, String descricao, int codigo, int quantidade, float preco, JComboBox<String> combofilial) {
         Curso cadastro = new Curso(nome, descricao, codigo, quantidade, preco, String.valueOf(combofilial.getSelectedItem()));
         
         String filePath = "curso.json";
@@ -173,6 +195,7 @@ public class Controller{
         for (int i = 0; i < listafilial.size(); i++) {
             if(listafilial.get(i).getNome().equals(combofilial.getSelectedItem())){
                 listafilial.get(i).setNumerodeprodutos(listafilial.get(i).getNumerodeprodutos() + quantidade);
+                listafilial.get(i).addCursoNaFilial(cadastro);
             }
         }
         System.out.println(listafilial);
@@ -183,10 +206,9 @@ public class Controller{
             e.printStackTrace();
         }
         JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
-        return true;
     }
-    
-    public boolean salvarCaneca(Gson gson, String nome, String descricao, int codigo, int quantidade, float preco, JComboBox<String> combofilial, float peso) {
+
+    public void salvarCaneca(Gson gson, String nome, String descricao, int codigo, int quantidade, float preco, JComboBox<String> combofilial, float peso) {
         Caneca cadastro = new Caneca(nome, descricao, codigo, quantidade, preco, String.valueOf(combofilial.getSelectedItem()),peso);
 
         String filePath = "caneca.json";
@@ -248,6 +270,7 @@ public class Controller{
         for (int i = 0; i < listafilial.size(); i++) {
             if(listafilial.get(i).getNome().equals(combofilial.getSelectedItem())){
                 listafilial.get(i).setNumerodeprodutos(listafilial.get(i).getNumerodeprodutos() + quantidade);
+                listafilial.get(i).addCanecaNaFilial(cadastro);
             }
         }
         System.out.println(listafilial);
@@ -259,6 +282,228 @@ public class Controller{
         }
         
         JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
-        return true;
+    }
+
+    public void removerFilial(JRadioButton buttonnome, String textonome, JRadioButton buttonendereco, String textoendereco ) throws FileNotFoundException, Exception{
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        FileReader reader = new FileReader("filiais.json");
+        JsonArray jsonArray = (JsonArray) JsonParser.parseReader(reader);
+        java.util.List<Filial> listacadastro = new ArrayList<Filial>();
+        
+        for (JsonElement jsonElement : jsonArray){
+            Filial cadastro1 = new Gson().fromJson(jsonElement, Filial.class);
+            listacadastro.add(cadastro1);
+        }
+        int aux = 0;
+
+        if(buttonnome.isSelected() == true){
+            String nome = textonome;
+            for (int i = 0; i < listacadastro.size(); i++) {
+                if (String.valueOf(listacadastro.get(i).getNome()).equals(nome)) {
+                    listacadastro.remove(i);
+                    aux = 1;
+                    break;
+                }
+            }
+        }
+
+        if(buttonendereco.isSelected() == true){
+            String codigo = textoendereco;
+            for (int i = 0; i < listacadastro.size(); i++) {
+                if (String.valueOf(listacadastro.get(i).getEndereco()).equals(codigo)) {
+                    listacadastro.remove(i);
+                    aux = 1;
+                    break;
+                }
+            }
+        }
+
+        if(aux == 0){
+            throw new Exception("O item nao existe");
+        }
+
+        String updatedJsonString = gson.toJson(listacadastro);
+        Files.write(Paths.get("filiais.json"), updatedJsonString.getBytes());
+
+    }
+
+    public void removerProduto(JRadioButton buttonnome, String textonome, JRadioButton buttoncodigo, String textocodigo)throws FileNotFoundException, Exception{
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        FileReader reader = new FileReader("caneca.json");
+        JsonArray jsonArray = (JsonArray) JsonParser.parseReader(reader);
+        java.util.List<Caneca> listacadastro = new ArrayList<Caneca>();
+
+        FileReader readerv = new FileReader("curso.json");
+        JsonArray jsonArrayv = (JsonArray) JsonParser.parseReader(readerv);
+        java.util.List<Curso> listacadastrov = new ArrayList<Curso>();
+        
+        for (JsonElement jsonElement : jsonArrayv){
+            Curso cadastro2 = new Gson().fromJson(jsonElement, Curso.class);
+            listacadastrov.add(cadastro2);
+        }
+        
+        for (JsonElement jsonElement : jsonArray){
+            Caneca cadastro1 = new Gson().fromJson(jsonElement, Caneca.class);
+            listacadastro.add(cadastro1);
+        }
+
+        int aux = 0;
+
+        if(buttonnome.isSelected() == true){
+            String nome = textonome;
+            for (int i = 0; i < listacadastro.size(); i++) {
+                if (String.valueOf(listacadastro.get(i).getNome()).equals(nome)) {
+                    listacadastro.remove(i);
+                    aux = 1;
+                    break;
+                }
+            }
+            for (int i = 0; i < listacadastrov.size(); i++) {
+                if (String.valueOf(listacadastrov.get(i).getNome()).equals(nome)) {
+                    listacadastrov.remove(i);
+                    aux = 1;
+                    break;
+                }
+            }
+        }
+
+        if(buttoncodigo.isSelected() == true){
+            String codigo = textocodigo;
+            for (int i = 0; i < listacadastro.size(); i++) {
+                if (String.valueOf(listacadastro.get(i).getCodigo()).equals(codigo)) {
+                    listacadastro.remove(i);
+                    aux = 1;
+                    break;
+                }
+            }
+            for (int i = 0; i < listacadastrov.size(); i++) {
+                if (String.valueOf(listacadastrov.get(i).getCodigo()).equals(codigo)) {
+                    listacadastrov.remove(i);
+                    aux = 1;
+                    break;
+                }
+            }
+        }
+
+        if(aux == 0){
+            throw new Exception("O item nao existe");
+        }
+
+        String updatedJsonString = gson.toJson(listacadastro);
+        Files.write(Paths.get("caneca.json"), updatedJsonString.getBytes());
+
+        String updatedJsonStringv = gson.toJson(listacadastrov);
+        Files.write(Paths.get("curso.json"), updatedJsonStringv.getBytes());
+            
+    }
+
+    public void updateProdutoCaneca(JList<Caneca> listaf, String textonome, String textodescricao, String textocodigo, String textoquantidade, String textopreco, String textopeso){
+            Caneca p = listaf.getSelectedValue();
+            if(textonome != null && !textonome.isEmpty()){
+                p.setNome(textonome);
+            }
+            if (textodescricao != null && !textodescricao.isEmpty()) {
+                p.setDescricao(textodescricao);
+            }
+            if (textocodigo != null && !textocodigo.isEmpty()) {
+                int codigo = Integer.parseInt(textocodigo);
+                p.setCodigo(codigo);
+            }
+            if (textoquantidade != null && !textoquantidade.isEmpty()) {
+                int quantidade = Integer.parseInt(textoquantidade);
+                p.setQuantidade(quantidade);
+            }
+            if (textopreco != null && !textopreco.isEmpty()) {
+                float preco = Float.parseFloat(textopreco);
+                p.setPreco(preco); 
+            }
+            if (textopeso != null && !textopeso.isEmpty()) {
+                float peso = Float.parseFloat(textopeso);
+                p.setPeso(peso);   
+            }
+            try {
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                FileReader reader = new FileReader("caneca.json");
+                JsonArray jsonArray = (JsonArray) JsonParser.parseReader(reader);
+                java.util.List<Caneca> listacadastro = new ArrayList<Caneca>();
+                for (JsonElement jsonElement : jsonArray){
+                    Caneca cadastro1 = new Gson().fromJson(jsonElement, Caneca.class);
+                    listacadastro.add(cadastro1);
+                }
+                listacadastro.set(listaf.getSelectedIndex(), p);
+                String updatedJsonString = gson.toJson(listacadastro);
+                Files.write(Paths.get("caneca.json"), updatedJsonString.getBytes());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+    }
+    
+    public void updateProdutoCurso(JList<Curso> listav, String textonome, String textodescricao, String textocodigo, String textoquantidade, String textopreco, String textoplano){
+        Curso p = listav.getSelectedValue();
+        if(textonome != null && !textonome.isEmpty()){
+            p.setNome(textonome);
+        }
+        if (textodescricao != null && !textodescricao.isEmpty()) {
+            p.setDescricao(textodescricao);
+        }
+        if (textocodigo != null && !textocodigo.isEmpty()) {
+            int codigo = Integer.parseInt(textocodigo);
+            p.setCodigo(codigo);
+        }
+        if (textoquantidade != null && !textoquantidade.isEmpty()) {
+            int quantidade = Integer.parseInt(textoquantidade);
+            p.setQuantidade(quantidade);
+        }
+        if (textopreco != null && !textopreco.isEmpty()) {
+            float preco = Float.parseFloat(textopreco);
+            p.setPreco(preco); 
+        }
+        if (textoplano != null && !textoplano.isEmpty()) {
+            String plano = textoplano;
+            p.setPlano(plano);   
+        }
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            FileReader reader = new FileReader("curso.json");
+            JsonArray jsonArray = (JsonArray) JsonParser.parseReader(reader);
+            java.util.List<Curso> listacadastro = new ArrayList<Curso>();
+            for (JsonElement jsonElement : jsonArray){
+                Curso cadastro1 = new Gson().fromJson(jsonElement, Curso.class);
+                listacadastro.add(cadastro1);
+            }
+            listacadastro.set(listav.getSelectedIndex(), p);
+            String updatedJsonString = gson.toJson(listacadastro);
+            Files.write(Paths.get("curso.json"), updatedJsonString.getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateFilial(JList<Filial> listaFilial, String textonome, String textoendereco){
+        Filial p = listaFilial.getSelectedValue();
+        if(textonome != null && !textonome.isEmpty()){
+            p.setNome(textonome);
+        }
+        if (textoendereco != null && !textoendereco.isEmpty()) {
+            p.setEndereco(textoendereco);
+        }
+        
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            FileReader reader = new FileReader("filiais.json");
+            JsonArray jsonArray = (JsonArray) JsonParser.parseReader(reader);
+            java.util.List<Filial> listacadastro = new ArrayList<Filial>();
+            for (JsonElement jsonElement : jsonArray){
+                Filial cadastro1 = new Gson().fromJson(jsonElement, Filial.class);
+                listacadastro.add(cadastro1);
+            }
+            listacadastro.set(listaFilial.getSelectedIndex(), p);
+            String updatedJsonString = gson.toJson(listacadastro);
+            Files.write(Paths.get("filiais.json"), updatedJsonString.getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

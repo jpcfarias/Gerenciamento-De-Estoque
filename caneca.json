@@ -1,11 +1,20 @@
 [
   {
-    "peso": 124124.0,
-    "nome": "caneca 1",
-    "descricao": "1 caneca",
-    "codigo": 2134124,
-    "quantidade": 12,
-    "preco": 124.0,
+    "peso": 1239.0,
+    "nome": "Caneca 1",
+    "descricao": "aisdjio",
+    "codigo": 123,
+    "quantidade": 1,
+    "preco": 23940.0,
+    "filial": "filial 1"
+  },
+  {
+    "peso": 123.0,
+    "nome": "Caneca 2",
+    "descricao": "asdjio",
+    "codigo": 42,
+    "quantidade": 0,
+    "preco": 123.0,
     "filial": "filial 1"
   }
 ]

@@ -2,36 +2,28 @@ package com.projeto.view;
 
 import javax.swing.*;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.projeto.model.Caneca;
-import com.projeto.model.Curso;
+import com.projeto.control.Controller;
 
 import java.awt.GridBagLayout;
-import java.io.FileReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
 public class TelaRemoverProdutos extends JFrame{
 
-    JFrame frame = new JFrame();
+    //JFrame frame = new JFrame();
     private JPanel jPanel = new JPanel(new GridBagLayout());
-    JLabel labelnome = new JLabel("Nome do Produto: ");
-    JLabel labelcodigo = new JLabel("Codigo do Produto: ");
-    JTextField textonome = new JTextField();
-    JTextField textocodigo = new JTextField();
-    JButton remover = new JButton("Remover");
+    private JLabel labelnome = new JLabel("Nome do Produto: ");
+    private JLabel labelcodigo = new JLabel("Codigo do Produto: ");
+    private JTextField textonome = new JTextField();
+    private JTextField textocodigo = new JTextField();
+    private JButton remover = new JButton("Remover");
 
-    ButtonGroup buttonGroup = new ButtonGroup();
-    JRadioButton buttonnome = new JRadioButton("", true) ;
-    JRadioButton buttoncodigo = new JRadioButton(); 
+    private ButtonGroup buttonGroup = new ButtonGroup();
+    private JRadioButton buttonnome = new JRadioButton("", true) ;
+    private JRadioButton buttoncodigo = new JRadioButton(); 
+
+    private Controller controller = new Controller();
 
     public TelaRemoverProdutos(){
         setTitle("Tela de Remoçao");
@@ -90,75 +82,14 @@ public class TelaRemoverProdutos extends JFrame{
         });
 
         remover.addActionListener(acao2 -> {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            
 
             try {
-                FileReader reader = new FileReader("caneca.json");
-                JsonArray jsonArray = (JsonArray) JsonParser.parseReader(reader);
-                java.util.List<Caneca> listacadastro = new ArrayList<Caneca>();
-
-                FileReader readerv = new FileReader("curso.json");
-                JsonArray jsonArrayv = (JsonArray) JsonParser.parseReader(readerv);
-                java.util.List<Curso> listacadastrov = new ArrayList<Curso>();
+                controller.removerProduto(buttonnome, textonome.getText(), buttoncodigo, textocodigo.getText());
                 
-                for (JsonElement jsonElement : jsonArrayv){
-                    Curso cadastro2 = new Gson().fromJson(jsonElement, Curso.class);
-                    listacadastrov.add(cadastro2);
-                }
-                
-                for (JsonElement jsonElement : jsonArray){
-                    Caneca cadastro1 = new Gson().fromJson(jsonElement, Caneca.class);
-                    listacadastro.add(cadastro1);
-                }
+                JOptionPane.showMessageDialog(this, "Produto deletado com sucesso");
 
-                int aux = 0;
-
-                if(buttonnome.isSelected() == true){
-                    String nome = textonome.getText();
-                    for (int i = 0; i < listacadastro.size(); i++) {
-                        if (String.valueOf(listacadastro.get(i).getNome()).equals(nome)) {
-                            listacadastro.remove(i);
-                            aux = 1;
-                            break;
-                        }
-                    }
-                    for (int i = 0; i < listacadastrov.size(); i++) {
-                        if (String.valueOf(listacadastrov.get(i).getNome()).equals(nome)) {
-                            listacadastrov.remove(i);
-                            aux = 1;
-                            break;
-                        }
-                    }
-                }
-
-                if(buttoncodigo.isSelected() == true){
-                    String codigo = textocodigo.getText();
-                    for (int i = 0; i < listacadastro.size(); i++) {
-                        if (String.valueOf(listacadastro.get(i).getCodigo()).equals(codigo)) {
-                            listacadastro.remove(i);
-                            aux = 1;
-                            break;
-                        }
-                    }
-                    for (int i = 0; i < listacadastrov.size(); i++) {
-                        if (String.valueOf(listacadastrov.get(i).getCodigo()).equals(codigo)) {
-                            listacadastrov.remove(i);
-                            aux = 1;
-                            break;
-                        }
-                    }
-                }
-
-                if(aux == 0){
-                    throw new Exception("O item nao existe");
-                }
-
-                String updatedJsonString = gson.toJson(listacadastro);
-                Files.write(Paths.get("caneca.json"), updatedJsonString.getBytes());
-
-                String updatedJsonStringv = gson.toJson(listacadastrov);
-                Files.write(Paths.get("curso.json"), updatedJsonStringv.getBytes());
-            
+                TelaRemoverProdutos.this.dispose();
             } catch (Exception e) {
                 e.printStackTrace();
             }

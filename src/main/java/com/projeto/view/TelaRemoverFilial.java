@@ -2,35 +2,28 @@ package com.projeto.view;
 
 import javax.swing.*;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.projeto.model.Filial;
+import com.projeto.control.Controller;
 
 import java.awt.GridBagLayout;
-import java.io.FileReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
 public class TelaRemoverFilial extends JFrame{
 
-    JFrame frame = new JFrame();
+    //private JFrame frame = new JFrame();
     private JPanel jPanel = new JPanel(new GridBagLayout());
-    JLabel labelnome = new JLabel("Nome da Filial: ");
-    JLabel labelendereco = new JLabel("Endereco da Filial: ");
-    JTextField textonome = new JTextField();
-    JTextField textoendereco = new JTextField();
-    JButton remover = new JButton("Remover");
+    private JLabel labelnome = new JLabel("Nome da Filial: ");
+    private JLabel labelendereco = new JLabel("Endereco da Filial: ");
+    private JTextField textonome = new JTextField();
+    private JTextField textoendereco = new JTextField();
+    private JButton remover = new JButton("Remover");
 
-    ButtonGroup buttonGroup = new ButtonGroup();
-    JRadioButton buttonnome = new JRadioButton("", true) ;
-    JRadioButton buttonendereco = new JRadioButton(); 
+    private ButtonGroup buttonGroup = new ButtonGroup();
+    private JRadioButton buttonnome = new JRadioButton("", true) ;
+    private JRadioButton buttonendereco = new JRadioButton();
+    
+    private Controller controller = new Controller();
 
     public TelaRemoverFilial(){
         setTitle("Tela de Remoçao");
@@ -89,53 +82,15 @@ public class TelaRemoverFilial extends JFrame{
         });
 
         remover.addActionListener(acao2 -> {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
             try {
-                FileReader reader = new FileReader("filiais.json");
-                JsonArray jsonArray = (JsonArray) JsonParser.parseReader(reader);
-                java.util.List<Filial> listacadastro = new ArrayList<Filial>();
                 
-                for (JsonElement jsonElement : jsonArray){
-                    Filial cadastro1 = new Gson().fromJson(jsonElement, Filial.class);
-                    listacadastro.add(cadastro1);
-                }
-                int aux = 0;
 
-                if(buttonnome.isSelected() == true){
-                    String nome = textonome.getText();
-                    for (int i = 0; i < listacadastro.size(); i++) {
-                        if (String.valueOf(listacadastro.get(i).getNome()).equals(nome)) {
-                            listacadastro.remove(i);
-                            aux = 1;
-                            break;
-                        }
-                    }
-                }
-
-                if(buttonendereco.isSelected() == true){
-                    String codigo = textoendereco.getText();
-                    for (int i = 0; i < listacadastro.size(); i++) {
-                        if (String.valueOf(listacadastro.get(i).getEndereco()).equals(codigo)) {
-                            listacadastro.remove(i);
-                            aux = 1;
-                            break;
-                        }
-                    }
-                }
-
-                if(aux == 0){
-                    throw new Exception("O item nao existe");
-                }
-
-                String updatedJsonString = gson.toJson(listacadastro);
-                Files.write(Paths.get("filiais.json"), updatedJsonString.getBytes());
+                controller.removerFilial(buttonnome, textonome.getText(), buttonendereco, textoendereco.getText() );
 
                 JOptionPane.showMessageDialog(this, "Filial deletada com sucesso");
 
                 TelaRemoverFilial.this.dispose();
-            
-            } catch (Exception e) {
+            }catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "O item nao existe");
                 e.printStackTrace();
             }
